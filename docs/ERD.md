@@ -5,14 +5,14 @@ erDiagram
     MATERIAL_BATCHES ||--o{ EXPERIMENTS : "used_in"
     MATERIAL_BATCHES ||--o{ EXPERIMENTS : "comparison_with"
     SCIENTISTS ||--o{ EXPERIMENTS : "conducts"
-    EXPERIMENTS ||--o{ PROCESSES : "contains"
-    PROCESSES ||--o{ SAMPLES : "produces"
-    SAMPLES ||--o{ SAMPLE_ANALYSES : "undergoes"
-    SAMPLE_ANALYSES ||--o{ ANALYSIS_RESULTS : "generates"
-    PROCESS_TYPES ||--o{ PROCESSES : "defines"
     EQUIPMENT_TYPES ||--o{ PRODUCTION_EQUIPMENT : "categorizes"
     PRODUCTION_EQUIPMENT ||--o{ PROCESSES : "used_in"
+    PROCESS_TYPES ||--o{ PROCESSES : "defines"
+    EXPERIMENTS ||--o{ PROCESSES : "contains"
+    PROCESSES ||--o{ SAMPLES : "produces"
     LABORATORY_INSTRUMENTS ||--o{ SAMPLE_ANALYSES : "performs"
+    SAMPLES ||--o{ SAMPLE_ANALYSES : "undergoes"
+    SAMPLE_ANALYSES ||--o{ ANALYSIS_RESULTS : "generates"
 
     MATERIAL_BATCHES {
         int batch_id PK
@@ -59,7 +59,18 @@ erDiagram
         string status
     }
 
-
+    EXPERIMENTS {
+        int experiment_id PK
+        int scientist_id FK
+        int batch_id FK
+        int comparison_batch_id FK
+        string name
+        string description
+        timestamp start_date
+        timestamp end_date
+        string status
+        string objective
+    }
 
     PROCESSES {
         int process_id PK
