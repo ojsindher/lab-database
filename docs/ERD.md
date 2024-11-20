@@ -21,6 +21,12 @@ erDiagram
         timestamp received_date
         decimal quantity
     }
+
+    SCIENTISTS  {
+        int scientist_id PK
+        string name
+        string email
+    }
     
     EXPERIMENTS {
         int experiment_id PK
