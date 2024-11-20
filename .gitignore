@@ -1,0 +1,7 @@
+# Database
+*.backup
+*.sql~
+*.swp
+
+# OS files
+.DS_Store
