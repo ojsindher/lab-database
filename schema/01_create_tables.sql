@@ -3,7 +3,6 @@ CREATE TABLE material_batches (
     batch_id SERIAL PRIMARY KEY,
     material_type VARCHAR(100),
     supplier_id INTEGER,
-    batch_number VARCHAR(100),
     received_date TIMESTAMP,
     quantity_received DECIMAL,
     units VARCHAR(50),
@@ -72,18 +71,6 @@ CREATE TABLE processes (
     start_time TIMESTAMP,
     end_time TIMESTAMP,
     status VARCHAR(50)
-);
-
--- Process Parameters
-CREATE TABLE process_parameters (
-    process_parameter_id SERIAL PRIMARY KEY,
-    process_id INTEGER REFERENCES processes(process_id),
-    parameter_name VARCHAR(100),
-    value TEXT,
-    timestamp TIMESTAMP,
-    parameter_type VARCHAR(50),
-    units VARCHAR(50),
-    is_controlled BOOLEAN
 );
 
 -- Samples
