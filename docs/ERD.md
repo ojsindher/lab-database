@@ -56,21 +56,10 @@ erDiagram
         string unique_identifier UNIQUE
         int location_id
         date installation_date
-        string euip_status
+        string status
     }
 
-    EXPERIMENTS {
-        int experiment_id PK
-        int scientist_id FK
-        int batch_id FK
-        int comparison_batch_id FK
-        string name
-        string description
-        timestamp start_date
-        timestamp end_date
-        string status
-        string objective
-    }
+
 
     PROCESSES {
         int process_id PK
