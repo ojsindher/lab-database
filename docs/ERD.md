@@ -59,7 +59,7 @@ erDiagram
         string status
     }
 
-    EXPERIMENTS {
+    EXPERIMENTS_ {
         int experiment_id PK
         int scientist_id FK
         int batch_id FK
