@@ -3,7 +3,6 @@
 ```mermaid
 erDiagram
     MATERIAL_BATCHES ||--o{ EXPERIMENTS : "used_in"
-    MATERIAL_BATCHES ||--o{ EXPERIMENTS : "comparison_with"
     SCIENTISTS ||--o{ EXPERIMENTS : "conducts"
     EQUIPMENT_TYPES ||--o{ PRODUCTION_EQUIPMENT : "categorizes"
     PRODUCTION_EQUIPMENT ||--o{ PROCESSES : "used_in"
@@ -63,7 +62,6 @@ erDiagram
         int experiment_id PK
         int scientist_id FK
         int batch_id FK
-        int comparison_batch_id FK
         string name
         string description
         timestamp start_date
