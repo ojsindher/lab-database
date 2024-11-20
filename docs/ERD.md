@@ -80,17 +80,6 @@ erDiagram
         string status
     }
 
-    PROCESS_PARAMETERS {
-        int process_parameter_id PK
-        int process_id FK
-        string parameter_name
-        string value
-        timestamp timestamp
-        string parameter_type
-        string units
-        boolean is_controlled
-    }
-
     SAMPLES {
         int sample_id PK
         int process_id FK
