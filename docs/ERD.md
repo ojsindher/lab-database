@@ -56,10 +56,10 @@ erDiagram
         string unique_identifier UNIQUE
         int location_id
         date installation_date
-        string status
+        string euip_status
     }
 
-    EXPERIMENTS_ {
+    EXPERIMENTS {
         int experiment_id PK
         int scientist_id FK
         int batch_id FK
