@@ -17,7 +17,6 @@ erDiagram
         int batch_id PK
         string material_type
         string supplier_id
-        string batch_number
         timestamp received_date
         decimal quantity
     }
@@ -35,6 +34,16 @@ erDiagram
         string name
         string objective
         timestamp start_date
+    }
+
+    PROCESS_TYPES {
+        int process_type_id PK
+        string name
+        string description
+        string standard_duration
+        int sequence_order
+        bool requires_temperature_control
+        bool requires_atmosphere_control
     }
     
     PROCESSES {
