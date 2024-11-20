@@ -27,7 +27,7 @@ erDiagram
     SCIENTISTS {
         int scientist_id PK
         string name
-        string email UNIQUE
+        string email
     }
 
     PROCESS_TYPES {
