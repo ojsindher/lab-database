@@ -102,7 +102,7 @@ erDiagram
     LABORATORY_INSTRUMENTS {
         int instrument_id PK
         int instrument_type_id
-        string unique_identifier UNIQUE
+        string unique_identifier
         timestamp last_calibration_date
         timestamp next_calibration_date
         string status
