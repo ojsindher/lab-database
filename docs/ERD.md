@@ -29,16 +29,6 @@ erDiagram
         string email
     }
 
-    PROCESS_TYPES {
-        int process_type_id PK
-        string name
-        string description
-        interval standard_duration
-        int sequence_order
-        boolean requires_temperature_control
-        boolean requires_atmosphere_control
-    }
-
     EQUIPMENT_TYPES {
         int equipment_type_id PK
         string name
@@ -68,6 +58,16 @@ erDiagram
         timestamp end_date
         string status
         string objective
+    }
+
+    PROCESS_TYPES {
+        int process_type_id PK
+        string name
+        string description
+        interval standard_duration
+        int sequence_order
+        boolean requires_temperature_control
+        boolean requires_atmosphere_control
     }
 
     PROCESSES {
