@@ -2,86 +2,55 @@
 
 ```mermaid
 erDiagram
-    scientists ||--o{ experiments : conducts
-    scientists ||--o{ samples : collects
-    scientists ||--o{ sample_analyses : performs
-
-    experiments ||--o{ processes : contains
+    MATERIAL_BATCHES ||--o{ EXPERIMENTS : "used_in"
+    EXPERIMENTS ||--o{ PROCESSES : "contains"
+    PROCESSES ||--o{ SAMPLES : "produces"
+    SAMPLES ||--o{ SAMPLE_ANALYSES : "undergoes"
+    SAMPLE_ANALYSES ||--o{ ANALYSIS_RESULTS : "generates"
+    PROCESS_TYPES ||--o{ PROCESSES : "defines"
+    EQUIPMENT_TYPES ||--o{ PRODUCTION_EQUIPMENT : "categorizes"
+    PRODUCTION_EQUIPMENT ||--o{ PROCESSES : "used_in"
+    LABORATORY_INSTRUMENTS ||--o{ SAMPLE_ANALYSES : "performs"
+    SCIENTISTS ||--o{ EXPERIMENTS : "conducts"
     
-    processes }o--|| production_equipment : uses
-    processes }o--|| process_types : follows
+    MATERIAL_BATCHES {
+        int batch_id PK
+        string material_type
+        string supplier_id
+        string batch_number
+        timestamp received_date
+        decimal quantity
+    }
     
-    samples }o--|| processes : generated-in
-    samples }o--|| sample_collection_points : collected-at
-    
-    sample_analyses }o--|| samples : analyzes
-    sample_analyses }o--|| analysis_types : uses
-    sample_analyses }o--|| laboratory_instruments : performed-with
-    
-    processes }o--o{ process_type_parameters : has
-    sample_analyses }o--o{ analysis_parameters : requires
-    
-    production_equipment }o--|| equipment_types : is-type-of
-    production_equipment }o--|| locations : located-at
-    
-    laboratory_instruments }o--|| instrument_types : is-type-of
-    laboratory_instruments }o--|| locations : located-at
-    
-    instrument_types ||--o{ instrument_analysis_capabilities : supports
-    instrument_analysis_capabilities }o--|| analysis_types : capable-of
-    
-    sample_analyses ||--o{ analysis_results : generates
-
-    % Entities with relationships
-    scientists {
-        int scientist_id
+    EXPERIMENTS {
+        int experiment_id PK
+        int scientist_id FK
+        int batch_id FK
         string name
-        string email
+        string objective
+        timestamp start_date
     }
     
-    experiments {
-        int experiment_id
-        int scientist_id
-        string name
-        string status
+    PROCESSES {
+        int process_id PK
+        int experiment_id FK
+        int process_type_id FK
+        int equipment_id FK
+        timestamp start_time
+        timestamp end_time
     }
     
-    processes {
-        int process_id
-        int experiment_id
-        int process_type_id
-        int equipment_id
-        string status
+    SAMPLES {
+        int sample_id PK
+        int process_id FK
+        timestamp collection_time
+        string location
     }
     
-    samples {
-        int sample_id
-        int process_id
-        int collection_point_id
-        string sample_identifier
-        string status
+    SAMPLE_ANALYSES {
+        int analysis_id PK
+        int sample_id FK
+        int instrument_id FK
+        timestamp analysis_time
     }
-    
-    sample_analyses {
-        int analysis_id
-        int sample_id
-        int analysis_type_id
-        int instrument_id
-        string status
-    }
-    
-    production_equipment {
-        int equipment_id
-        int equipment_type_id
-        int location_id
-        string unique_identifier
-        string status
-    }
-    
-    laboratory_instruments {
-        int instrument_id
-        int instrument_type_id
-        int location_id
-        string unique_identifier
-        string status
-    }
+```
