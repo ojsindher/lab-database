@@ -2,6 +2,21 @@
 
 ```mermaid
 erDiagram
+    scientists ||--o{ experiments : "performs"
+    experiments ||--o{ processes : "has"
+    processes ||--o{ process_parameters : "sets"
+    processes ||--o{ samples : "generates"
+    samples ||--o{ sample_analyses : "used in"
+    sample_analyses ||--o{ analysis_results : "produces"
+    analysis_types ||--o{ analysis_parameters : "defines"
+    analysis_types ||--o{ instrument_analysis_capabilities : "supported by"
+    process_types ||--o{ process_type_parameters : "has"
+    equipment_types ||--o{ production_equipment : "used by"
+    instrument_types ||--o{ laboratory_instruments : "includes"
+    instrument_types ||--o{ instrument_analysis_capabilities : "supports"
+    locations ||--o{ laboratory_instruments : "hosts"
+    locations ||--o{ production_equipment : "contains"
+
     scientists {
         SERIAL scientist_id PK
         VARCHAR name
@@ -148,19 +163,4 @@ erDiagram
         VARCHAR file_path
         TIMESTAMP timestamp
     }
-
-    scientists ||--o{ experiments : "performs"
-    experiments ||--o{ processes : "has"
-    processes ||--o{ process_parameters : "sets"
-    processes ||--o{ samples : "generates"
-    samples ||--o{ sample_analyses : "used in"
-    sample_analyses ||--o{ analysis_results : "produces"
-    analysis_types ||--o{ analysis_parameters : "defines"
-    analysis_types ||--o{ instrument_analysis_capabilities : "supported by"
-    process_types ||--o{ process_type_parameters : "has"
-    equipment_types ||--o{ production_equipment : "used by"
-    instrument_types ||--o{ laboratory_instruments : "includes"
-    instrument_types ||--o{ instrument_analysis_capabilities : "supports"
-    locations ||--o{ laboratory_instruments : "hosts"
-    locations ||--o{ production_equipment : "contains"
 ```
