@@ -42,7 +42,7 @@ erDiagram
     PRODUCTION_EQUIPMENT {
         int equipment_id PK
         int equipment_type_id FK
-        string unique_identifier UNIQUE
+        string unique_identifier
         int location_id
         date installation_date
         string status
