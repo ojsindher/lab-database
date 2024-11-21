@@ -160,6 +160,78 @@ ORDER BY
         ELSE 4 
     END;
 
+-- Batch Carbon Content Comparison
+CREATE OR REPLACE VIEW batch_carbon_content_comparison AS
+WITH batch_comparison AS (
+    SELECT 
+        cct1.experiment_id AS experiment_1_id,
+        cct2.experiment_id AS experiment_2_id,
+        mb1.batch_id AS batch_1_id,
+        mb2.batch_id AS batch_2_id,
+        mb1.supplier_id,
+        cct1.process_name,
+        cct1.sequence_order,
+        cct1.collection_point,
+        
+        -- Batch 1 Metrics
+        cct1.carbon_content AS batch_1_carbon_content,
+        cct1.first_analysis_timestamp AS batch_1_first_analysis_timestamp,
+        cct1.last_analysis_timestamp AS batch_1_last_analysis_timestamp,
+        
+        -- Batch 2 Metrics
+        cct2.carbon_content AS batch_2_carbon_content,
+        cct2.first_analysis_timestamp AS batch_2_first_analysis_timestamp,
+        cct2.last_analysis_timestamp AS batch_2_last_analysis_timestamp,
+        
+        -- Comparative Metrics
+        cct2.carbon_content - cct1.carbon_content AS absolute_carbon_content_difference,
+        ROUND(
+            (cct2.carbon_content - cct1.carbon_content) / 
+            NULLIF(cct1.carbon_content, 0) * 100, 
+            2
+        ) AS percentage_carbon_content_change
+    FROM carbon_content_trend cct1
+    JOIN carbon_content_trend cct2 
+        ON cct1.process_name = cct2.process_name 
+        AND cct1.collection_point = cct2.collection_point
+    JOIN material_batches mb1 ON mb1.batch_id = cct1.batch_id
+    JOIN material_batches mb2 ON mb2.batch_id = cct2.batch_id
+    WHERE mb1.batch_id != mb2.batch_id  -- Ensure different batches
+)
+SELECT 
+    supplier_id,
+    batch_1_id,
+    batch_2_id,
+    process_name,
+    sequence_order,
+    collection_point,
+    
+    -- Batch 1 Metrics
+    batch_1_carbon_content,
+    batch_1_first_analysis_timestamp,
+    batch_1_last_analysis_timestamp,
+    
+    -- Batch 2 Metrics
+    batch_2_carbon_content,
+    batch_2_first_analysis_timestamp,
+    batch_2_last_analysis_timestamp,
+    
+    -- Comparative Metrics
+    absolute_carbon_content_difference,
+    percentage_carbon_content_change,
+    
+    -- Significance Flag
+    CASE 
+        WHEN ABS(percentage_carbon_content_change) > 10 THEN 'Significant Variation'
+        ELSE 'Minor Variation'
+    END AS variation_significance
+FROM 
+    batch_comparison
+ORDER BY 
+    process_name,
+    sequence_order,
+    collection_point;
+
 -- Instrument Calibration Status View
 CREATE VIEW instrument_calibration_status AS
 SELECT 
