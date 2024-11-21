@@ -227,6 +227,7 @@ SELECT
     END AS variation_significance
 FROM 
     batch_comparison
+WHERE (batch_1_id = :batch_1_id AND batch_2_id = :batch_2_id)
 ORDER BY 
     process_name,
     sequence_order,
