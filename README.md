@@ -2,6 +2,20 @@
 
 Database schema for managing laboratory experiments, samples, and analyses.
 
+## Repository Structure
+```
+lab-data-management/
+├── docs/
+│   ├── ERD.md
+├── schema/
+│   ├── 01_create_tables.sql
+│   ├── 02_create_views.sql
+│   ├── 03_sample_queries.sql
+├── .gitignore
+└── README.md
+└── .DS_Store
+```
+
 ## Assumptions
 1. Only one scientist is defining an experiment
 2. Only one piece of equipment is used for a process
