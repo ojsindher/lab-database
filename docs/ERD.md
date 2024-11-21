@@ -3,34 +3,73 @@
 ```mermaid
 erDiagram
     MATERIAL_BATCHES ||--o{ EXPERIMENTS : "used_in"
-    EXPERIMENTS ||--o{ PROCESSES : "contains"
-    PROCESSES ||--o{ SAMPLES : "produces"
-    SAMPLES ||--o{ SAMPLE_ANALYSES : "undergoes"
-    SAMPLE_ANALYSES ||--o{ ANALYSIS_RESULTS : "generates"
-    PROCESS_TYPES ||--o{ PROCESSES : "defines"
+    SCIENTISTS ||--o{ EXPERIMENTS : "conducts"
     EQUIPMENT_TYPES ||--o{ PRODUCTION_EQUIPMENT : "categorizes"
     PRODUCTION_EQUIPMENT ||--o{ PROCESSES : "used_in"
+    PROCESS_TYPES ||--o{ PROCESSES : "defines"
+    EXPERIMENTS ||--o{ PROCESSES : "contains"
+    PROCESSES ||--o{ SAMPLES : "produces"
     LABORATORY_INSTRUMENTS ||--o{ SAMPLE_ANALYSES : "performs"
-    SCIENTISTS ||--o{ EXPERIMENTS : "conducts"
-    
+    SAMPLES ||--o{ SAMPLE_ANALYSES : "undergoes"
+    SAMPLE_ANALYSES ||--o{ ANALYSIS_RESULTS : "generates"
+
     MATERIAL_BATCHES {
         int batch_id PK
         string material_type
-        string supplier_id
-        string batch_number
+        int supplier_id
         timestamp received_date
-        decimal quantity
+        decimal quantity_received
+        string units
+        string status
     }
-    
+
+    SCIENTISTS {
+        int scientist_id PK
+        string name
+        string email
+    }
+
+    EQUIPMENT_TYPES {
+        int equipment_type_id PK
+        string name
+        string description
+        decimal max_temperature
+        boolean temperature_controlled
+        boolean atmosphere_controlled
+        decimal batch_capacity
+    }
+
+    PRODUCTION_EQUIPMENT {
+        int equipment_id PK
+        int equipment_type_id FK
+        string unique_identifier
+        int location_id
+        date installation_date
+        string status
+    }
+
     EXPERIMENTS {
         int experiment_id PK
         int scientist_id FK
         int batch_id FK
         string name
-        string objective
+        string description
         timestamp start_date
+        timestamp end_date
+        string status
+        string objective
     }
-    
+
+    PROCESS_TYPES {
+        int process_type_id PK
+        string name
+        string description
+        interval standard_duration
+        int sequence_order
+        boolean requires_temperature_control
+        boolean requires_atmosphere_control
+    }
+
     PROCESSES {
         int process_id PK
         int experiment_id FK
@@ -38,19 +77,42 @@ erDiagram
         int equipment_id FK
         timestamp start_time
         timestamp end_time
+        string status
     }
-    
+
     SAMPLES {
         int sample_id PK
         int process_id FK
         timestamp collection_time
-        string location
+        string collection_point
+        string status
     }
-    
+
+    LABORATORY_INSTRUMENTS {
+        int instrument_id PK
+        int instrument_type_id
+        string unique_identifier
+        timestamp last_calibration_date
+        timestamp next_calibration_date
+        string status
+    }
+
     SAMPLE_ANALYSES {
         int analysis_id PK
         int sample_id FK
         int instrument_id FK
-        timestamp analysis_time
+        string analysis_type
+        timestamp start_time
+        timestamp end_time
+        string status
+    }
+
+    ANALYSIS_RESULTS {
+        int result_id PK
+        int analysis_id FK
+        string parameter_name
+        string value
+        string units
+        timestamp timestamp
     }
 ```
