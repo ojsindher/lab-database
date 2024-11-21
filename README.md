@@ -1,6 +1,13 @@
 # Laboratory Database Management
 
-A simple database schema for managing laboratory experiments, samples, and analyses.
+Database schema for managing laboratory experiments, samples, and analyses.
+
+## Assumptions
+1. Only one scientist is defining an experiment
+2. Only one piece of equipment is used for a process
+3. Only one instrument is used in an analyses
+4. The first view assumes that the processes with sequence order = 1 are the only ones that extract the quantity from the batch.
+5. The carbon content trend view assumes an analysis result with the parameter 'Carbon Content'.
 
 ## Features
 - Track experiments and processes
@@ -30,16 +37,9 @@ psql -d lab_management -f schema/02_create_views.sql
 psql -d lab_management -f schema/03_sample_queries.sql
 ```
 
-## Schema Overview
-- Material batch tracking
-- Process management
-- Equipment tracking
-- Sample management
-- Analysis results
-- Calibration tracking
-
 ## Example Queries
 See `schema/03_sample_queries.sql` for example queries including:
+- Batches with remaining quantity
 - Carbon content trend analysis
-- Equipment calibration status
 - Batch comparisons
+- Equipment calibration status
